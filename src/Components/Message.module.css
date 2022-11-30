@@ -1,0 +1,11 @@
+.heading {
+  font-size: 42px;
+  color: rgb(126, 5, 11);
+}
+button {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: rgb(236, 222, 222);
+  color: black;
+  margin-left: 30px;
+}
