@@ -1,19 +1,34 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import {Message} from './Components/Message';
+import {MessageList} from './Components/MessageList';
 
 
 
 function App() {
+  const [messageList, setMessageList] = useState([{text: '', author: ''}]);
+ 
+  
+  const addMessages = (newMessage) => {
+    setMessageList([...messageList, newMessage])
+  } 
+
+  useEffect(() => {
+    if(messageList[messageList.length - 1].author === 'user') {
+      const timeOut = setTimeout(() => {
+        addMessages({
+          author: 'BOT',
+          text: 'I am BOT'
+        })
+      }, 1500)
+      return() => {clearTimeout(timeOut)}
+    }
+  }, [messageList])
+
   return (
     <>
-     <p>1. Создала новый проект с использованием create-react-app с названием lesson1.<br/>
-        2. Создала компонент Message, отображающий переданный ему пропсом текст.<br/>
-        3. Изменила компонент App так, чтобы тот рендерил Message и передавал ему пропсом текст
-        (константу), а именно "Message Component".<br/>
-        4. Стилизовала компонент через css (с использованием module.css).<br/>
-        5. Установила расширение React Devtools
-    </p>
       <Message title="Message Component"/>
+      <hr/>
+      <MessageList messageList={messageList} addMessages={addMessages}/>
     </>
   );
 }
