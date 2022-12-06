@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from './MessageList.module.css'
 
 export function MessageList({messageList, addMessages}) {
 
@@ -15,14 +16,14 @@ export function MessageList({messageList, addMessages}) {
   return (
     <>
       <form onSubmit={clickTextArea}>
-      <textarea value={value} onChange={changeTextArea}/>
+      <textarea value={value} onChange={changeTextArea} className={styles.textarea}/>
       <br/>
-      <button type='submit'>Отправить</button>
+      <button type='submit' className={styles.button}>Отправить</button>
       </form>
-      <ul>
+      <ul className={styles.ulList}>
        {messageList.map((el, ind) => (
        <li key={ind}>
-        {el.author}: {el.text}
+         {el.text}
         </li>))}
       </ul>
     </>

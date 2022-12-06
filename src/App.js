@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {Message} from './Components/Message';
-import {MessageList} from './Components/MessageList';
+import {MessageList} from './Components/MessageList/MessageList';
 
 
 
@@ -13,7 +13,7 @@ function App() {
   } 
 
   useEffect(() => {
-    if(messageList[messageList.length - 1].author === 'user') {
+    if(messageList.length > 0 && messageList[messageList.length - 1].author === 'user') {
       const timeOut = setTimeout(() => {
         addMessages({
           author: 'BOT',
