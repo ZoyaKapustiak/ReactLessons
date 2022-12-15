@@ -1,9 +1,15 @@
 import {useEffect, useState, useRef} from 'react';
+import { Routes, Route } from 'react-router-dom'
+import { nanoid } from 'nanoid'
 import {Message} from './Components/Message';
 import {MessageList} from './Components/MessageList/MessageList';
 import { ChatsList } from './Components/ChatsList/ChatsList';
 import {useTheme, createTheme,} from '@mui/material';
 import styles from './App.module.css'
+import {MainPage} from './pages/MainPage'
+import {ChatsPage} from './pages/ChatsPage'
+import {ProfilePage} from './pages/ProfilePage'
+import { Header } from './Components/Header/Header';
 
 
 const theme = createTheme({
@@ -17,38 +23,66 @@ const theme = createTheme({
   },
 });
 
-function App() {
-  const [messageList, setMessageList] = useState([]);
+const defaultMessage = {
+  default: [
+    {
+      author: 'user',
+      text: 'one text'
+    },
+    {
+      author: 'user',
+      text: 'two text'
+    },
+  ]
+}
+
+export function App() {
+  const [messageList, setMessageList] = useState(defaultMessage);
   const theme = useTheme();
-  
-  const addMessages = (newMessage) => {
-    setMessageList([...messageList, newMessage])
-  } 
 
-  
+  const chats = Object.keys(messageList).map((chat) => ({
+    id: nanoid(),
+    name: chat
+  }))
 
-  useEffect(() => {
-    if(messageList.length > 0 && messageList[messageList.length - 1].author === 'user') {
-      const timeOut = setTimeout(() => {
-        addMessages({
-          author: 'BOT',
-          text: 'I am BOT'
-        })
-      }, 1500)
-      return() => {clearTimeout(timeOut)}
-    }
-  }, [messageList])
+  const onAddChat = (newChat) => {
+    
+    setMessageList({
+      ...messageList,
+      [newChat.name]: []
+    })
+  }
+
+  const onAddMessage = (chatId, newMessage) => {
+    setMessageList({
+      ...messageList,
+      [chatId]: [...messageList[chatId], newMessage]
+    })
+  }
+
 
 
   return (
     <>  
-      <Message title="Message Component"/>
-      <hr/>
-      <div className={styles.chatBlock}>
-      <ChatsList/><MessageList messageList={messageList} addMessages={addMessages}/>
-      </div>
+      <Routes>
+        <Route path="/" element={<Header />}>
+          <Route index element={<MainPage />} />
+          <Route path='profile' element={<ProfilePage />} />
+          <Route path='chats'>
+            <Route index element={<ChatsList chats={chats} onAddChat={onAddChat} />} />
+            <Route 
+              path=':chatId' 
+              element={<ChatsPage chats={chats} 
+              messageList={messageList} 
+              onAddMessage={onAddMessage} 
+              onAddChat={onAddChat} />} 
+            />
+          </Route>
+        </Route>
+        <Route path="*" element={<h2>404 Page not FOUND</h2>} />
+      </Routes>
     </>
-  );
+  )
 }
 
-export default App;
+

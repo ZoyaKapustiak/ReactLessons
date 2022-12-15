@@ -1,48 +1,22 @@
 import { useState,} from "react";
 import styles from './MessageList.module.css'
-import {TextField, ThemeProvider, useTheme, createTheme, Button, Box, useForkRef,} from '@mui/material';
+import PropTypes from 'prop-types'
 
-export function MessageList({messageList, addMessages,}) {
-
-  const [value, setValue] = useState('');
-  
-  
-  const changeTextArea = (event) => {
-    setValue(event.target.value)
-  }
-  const clickTextArea = (e) => {
-    e.preventDefault()
-    addMessages({text: value, author: 'user'})
-    setValue('')
-  }
-  
+export function MessageList({messageList}) {
+  console.log(messageList)
   return (
     <>
-      <Box
-      onSubmit={clickTextArea}
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-      noValidate
-      autoComplete="off">
-        <TextField
-          id="outlined-multiline-flexible"
-          label="Multiline"
-          multiline
-          maxRows={4}
-          value={value}
-          onChange={changeTextArea}
-          autoFocus={true}
-        />
-        <br/>
-        <Button type='submit' variant="outlined" >Отправить</Button>
-      </Box>
-      <ul className={styles.ulList}>
+    <h1>MessageList</h1>
+      <ul>
        {messageList.map((el, ind) => (
-       <li key={ind}>{el.author}: {el.text}
+       <li key={ind} >{el.author}: {el.text} 
         </li>))}
       </ul>
+      
     </>
   )
+}
+
+MessageList.propTypes = {
+  messageList: PropTypes.array
 }
