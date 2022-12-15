@@ -1,0 +1,7 @@
+.messageStyle {
+  display: flex;
+  align-items: flex-end;
+}
+.listStyle {
+  align-self: center;
+}

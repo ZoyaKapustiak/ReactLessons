@@ -1,31 +1,22 @@
-import { useState } from "react";
+import { useState,} from "react";
 import styles from './MessageList.module.css'
+import PropTypes from 'prop-types'
 
-export function MessageList({messageList, addMessages}) {
-
-  const [value, setValue] = useState('');
-  
-  const changeTextArea = (event) => {
-    setValue(event.target.value)
-  }
-  const clickTextArea = (e) => {
-    e.preventDefault()
-    addMessages({text: value, author: 'user'})
-    setValue('')
-  }
+export function MessageList({messageList}) {
+  console.log(messageList)
   return (
     <>
-      <form onSubmit={clickTextArea}>
-      <textarea value={value} onChange={changeTextArea} className={styles.textarea}/>
-      <br/>
-      <button type='submit' className={styles.button}>Отправить</button>
-      </form>
-      <ul className={styles.ulList}>
+    <h1>MessageList</h1>
+      <ul>
        {messageList.map((el, ind) => (
-       <li key={ind}>
-         {el.text}
+       <li key={ind} >{el.author}: {el.text} 
         </li>))}
       </ul>
+      
     </>
   )
+}
+
+MessageList.propTypes = {
+  messageList: PropTypes.array
 }
