@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { useParams, Navigate } from 'react-router-dom'
 
-import { Message } from "../Components/Message"
+import { Message } from "../Components/Message/Message"
 import { MessageList } from "../Components/MessageList/MessageList"
 import { ChatsList } from "../Components/ChatsList/ChatsList"
 import styles from './Pages.module.css'
@@ -13,6 +13,7 @@ export function ChatsPage ({onAddChat, onAddMessage, messageList, chats}) {
   
 
   useEffect(() => {
+    
     if(chatId && messageList[chatId]?.length > 0 && messageList[chatId][messageList[chatId].length - 1].author === 'user') {
       const timeOut = setTimeout(() => {
         onAddMessage(chatId, {

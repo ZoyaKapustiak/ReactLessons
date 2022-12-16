@@ -1,15 +1,10 @@
 import { useState } from "react";
 import { Link} from 'react-router-dom';
-import { MessageList } from "../MessageList/MessageList";
 import styles from './ChatsList.module.css'
-import CommentIcon from '@mui/icons-material/Comment';
 import { nanoid } from "nanoid";
 import {TextField, List, ListItem, Button, Box} from '@mui/material';
 
 export function ChatsList({onAddChat, chats}) {
-  console.log(chats)
-console.log()
-
   const [chat, setChat] = useState('')
 
   const handleChange = (e) => {

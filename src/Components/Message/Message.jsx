@@ -1,7 +1,6 @@
-import { createStyles } from "@mui/material";
 import { useState } from "react";
 import styles from './Message.module.css';
-import {TextField, ThemeProvider, useTheme, createTheme, Button, Box, useForkRef,} from '@mui/material';
+import { TextField, Button, Box } from '@mui/material';
 import PropTypes from 'prop-types'
 
 export function Message({ addMessage }) {
@@ -23,6 +22,7 @@ export function Message({ addMessage }) {
   const changeText = (e) => {
     setText(e.target.value)
   }
+  
   
   return (
     <>

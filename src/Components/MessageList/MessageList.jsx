@@ -1,5 +1,4 @@
-import { useState,} from "react";
-import styles from './MessageList.module.css'
+
 import PropTypes from 'prop-types'
 
 export function MessageList({messageList}) {
