@@ -1,45 +1,39 @@
 import { useState } from "react";
 import { Link} from 'react-router-dom';
-import { MessageList } from "../MessageList/MessageList";
 import styles from './ChatsList.module.css'
-import CommentIcon from '@mui/icons-material/Comment';
-import { nanoid } from "nanoid";
 import {TextField, List, ListItem, Button, Box} from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux'
+import { addChat, deleteChat } from '../../store/messages/actions'
+import { selectChat } from "../../store/messages/selectors";
 
-export function ChatsList({onAddChat, chats}) {
-  console.log(chats)
-console.log()
-
+export function ChatsList() {
   const [chat, setChat] = useState('')
+  const dispatch = useDispatch()
+  const chats = useSelector(selectChat, (prev, next) => prev.length === next.length)
 
-  const handleChange = (e) => {
-    setChat(e.target.value)
-  }
+console.log('update chats', chats)
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    onAddChat({
-      id: nanoid(),
-      name: chat
-    })
+    e.preventDefault() 
+    dispatch(addChat(chat))
   }
   return (
   <>
-  <h1> ChatList</h1>
-  
-  <List className={styles.listBlock}>
-  {chats.map((value) => (
-    <ListItem
-      key={value.id}
-      disableGutters
-    ><Link to={`/chats/${value.name}`}>
-    {value.name}
-  </Link>
-    </ListItem>
-  ))}
-</List>
-<h1>ChatList</h1>
-<Box
+    <h1> ChatList</h1> 
+    <List className={styles.listBlock}>
+      {chats.map((value) => (
+      <ListItem
+        key={value.id}
+        disableGutters
+        >
+        <Link to={`/chats/${value.name}`}>
+          {value.name}
+        </Link>
+        <button onClick={() => dispatch(deleteChat(value.name))}>X</button>
+      </ListItem>
+      ))}
+    </List>
+    <Box
       onSubmit={handleSubmit}
       component="form"
       sx={{
@@ -53,13 +47,11 @@ console.log()
           multiline
           maxRows={4}
           value={chat}
-          onChange={handleChange}
-        />
+          onChange={(e) => setChat(e.target.value)}
+          />
         <br/>
         <Button type='submit' variant="outlined" >Create Chat</Button>
-      </Box>
-
-
-</>
+    </Box>
+  </>
 )
 }

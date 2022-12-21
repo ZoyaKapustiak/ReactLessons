@@ -1,15 +1,17 @@
-import {useEffect, useState, useRef} from 'react';
+import { useState} from 'react';
 import { Routes, Route } from 'react-router-dom'
-import { nanoid } from 'nanoid'
-import {Message} from './Components/Message';
-import {MessageList} from './Components/MessageList/MessageList';
+
+import { Provider } from 'react-redux';
+
 import { ChatsList } from './Components/ChatsList/ChatsList';
 import {useTheme, createTheme,} from '@mui/material';
-import styles from './App.module.css'
-import {MainPage} from './pages/MainPage'
-import {ChatsPage} from './pages/ChatsPage'
-import {ProfilePage} from './pages/ProfilePage'
+
+import {MainPage} from './pages/MainPage';
+import {ChatsPage} from './pages/ChatsPage';
+import {ProfilePage} from './pages/ProfilePage';
 import { Header } from './Components/Header/Header';
+import { store } from './store/index'
+
 
 
 const theme = createTheme({
@@ -23,64 +25,31 @@ const theme = createTheme({
   },
 });
 
-const defaultMessage = {
-  default: [
-    {
-      author: 'user',
-      text: 'one text'
-    },
-    {
-      author: 'user',
-      text: 'two text'
-    },
-  ]
-}
+
 
 export function App() {
-  const [messageList, setMessageList] = useState(defaultMessage);
+
   const theme = useTheme();
-
-  const chats = Object.keys(messageList).map((chat) => ({
-    id: nanoid(),
-    name: chat
-  }))
-
-  const onAddChat = (newChat) => {
-    
-    setMessageList({
-      ...messageList,
-      [newChat.name]: []
-    })
-  }
-
-  const onAddMessage = (chatId, newMessage) => {
-    setMessageList({
-      ...messageList,
-      [chatId]: [...messageList[chatId], newMessage]
-    })
-  }
-
 
 
   return (
-    <>  
-      <Routes>
-        <Route path="/" element={<Header />}>
-          <Route index element={<MainPage />} />
-          <Route path='profile' element={<ProfilePage />} />
-          <Route path='chats'>
-            <Route index element={<ChatsList chats={chats} onAddChat={onAddChat} />} />
-            <Route 
-              path=':chatId' 
-              element={<ChatsPage chats={chats} 
-              messageList={messageList} 
-              onAddMessage={onAddMessage} 
-              onAddChat={onAddChat} />} 
-            />
+    <>
+      <Provider store={store}>
+        <Routes>
+          <Route path="/" element={<Header />}>
+            <Route index element={<MainPage />} />
+            <Route path='profile' element={<ProfilePage />} />
+            <Route path='chats'>
+              <Route index element={<ChatsList />} />
+              <Route 
+                path=':chatId' 
+                element={<ChatsPage />} 
+              />
+            </Route>
           </Route>
-        </Route>
-        <Route path="*" element={<h2>404 Page not FOUND</h2>} />
-      </Routes>
+          <Route path="*" element={<h2>404 Page not FOUND</h2>} />
+        </Routes>
+        </Provider>
     </>
   )
 }
