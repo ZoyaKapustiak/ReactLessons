@@ -1,19 +1,22 @@
+import * as types from './types'
+
 const initialState = {
-  name: 'Biba'
+  name: 'Biba',
+  visible: true
 }
 
 export const profileReduser = (state = initialState, action) => {
   const {type, payload } = action
   switch (type) {
-    case 'CHANGE_NAME':
+    case types.CHANGE_NAME:
       return {
         ...state,
         name: payload
       }
-    case 'CHECKED':
+    case types.TOGGLE_PROFILE:
       return {
         ...state,
-        value: payload
+        visible: !state.visible
       }
   
   

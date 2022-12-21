@@ -2,16 +2,21 @@ import { useState } from "react";
 import styles from './Message.module.css';
 import { TextField, Button, Box } from '@mui/material';
 import PropTypes from 'prop-types'
+import { useDispatch } from "react-redux";
+import { addMessage } from "../../store/messages/actions";
+import { useParams } from "react-router-dom";
 
-export function Message({ addMessage }) {
+export function Message() {
 
   const [toggle, setToggle] = useState(false)
-  
   const [text, setText] = useState('');
-  
+  const dispatch = useDispatch();
+  const { chatId } = useParams()
+
+
   const clickTextArea = (e) => {
     e.preventDefault()
-    addMessage({text, author: 'user'})
+    dispatch(addMessage(chatId, text))
     setText('')
   }
 
@@ -47,14 +52,13 @@ export function Message({ addMessage }) {
           maxRows={4}
           value={text}
           onChange={changeText}
-          autoFocus={true}
+          inputRef={input => input && input.focus()}
         />
         <br/>
         <Button type='submit' variant="outlined" >Отправить</Button>
       </Box>
     
     </>
-    
   )
 }
 Box.propTypes = {

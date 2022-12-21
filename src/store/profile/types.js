@@ -1,2 +1,2 @@
 export const CHANGE_NAME = 'CHANGE_NAME'
-export const CHECKED = 'CHECKED'
+export const TOGGLE_PROFILE = 'TOGGLE_PROFILE'

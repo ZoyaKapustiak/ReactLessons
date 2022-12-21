@@ -1,6 +1,6 @@
 import { useState} from 'react';
 import { Routes, Route } from 'react-router-dom'
-import { nanoid } from 'nanoid'
+
 import { Provider } from 'react-redux';
 
 import { ChatsList } from './Components/ChatsList/ChatsList';
@@ -25,42 +25,12 @@ const theme = createTheme({
   },
 });
 
-const defaultMessage = {
-  default: [
-    {
-      author: 'user',
-      text: 'one text'
-    },
-    {
-      author: 'user',
-      text: 'two text'
-    },
-  ]
-}
+
 
 export function App() {
-  const [messageList, setMessageList] = useState(defaultMessage);
+
   const theme = useTheme();
 
-  const chats = Object.keys(messageList).map((chat) => ({
-    id: nanoid(),
-    name: chat
-  }))
-
-  const onAddChat = (newChat) => {
-    
-    setMessageList({
-      ...messageList,
-      [newChat.name]: []
-    })
-  }
-
-  const onAddMessage = (chatId, newMessage) => {
-    setMessageList({
-      ...messageList,
-      [chatId]: [...messageList[chatId], newMessage]
-    })
-  }
 
   return (
     <>
@@ -70,13 +40,10 @@ export function App() {
             <Route index element={<MainPage />} />
             <Route path='profile' element={<ProfilePage />} />
             <Route path='chats'>
-              <Route index element={<ChatsList chats={chats} onAddChat={onAddChat} />} />
+              <Route index element={<ChatsList />} />
               <Route 
                 path=':chatId' 
-                element={<ChatsPage chats={chats} 
-                messageList={messageList} 
-                onAddMessage={onAddMessage} 
-                onAddChat={onAddChat} />} 
+                element={<ChatsPage />} 
               />
             </Route>
           </Route>

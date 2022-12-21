@@ -1,30 +1,15 @@
 import { useSelector, useDispatch} from 'react-redux'
 import { useState } from 'react'
-import * as types from '../store/profile/types'
+import { selectName, selectVisible } from '../store/profile/selectors'
+import { changeName, toggleProfile } from '../store/profile/actions'
+
 
 
 export function ProfilePage() {
-  const name = useSelector((store) => store.name)
+  const name = useSelector(selectName)
+  const visible = useSelector(selectVisible)
   const dispatch = useDispatch()
   const [value, setValue] = useState('')
-  const [checkBox, setCheckBox] = useState(false)
-
-  const handleChange = () => {
-    console.log(value)
-    dispatch({type: types.CHANGE_NAME, payload: value})
-    setValue('checked')
-  }
-
-  const handleCheckbox = () => {
-    
-    dispatch({type: types.CHECKED, payload: checkBox})
-  
-  }
-
-  const changeCheck = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value
-    setCheckBox(value)
-  }
 
 
   return (
@@ -38,10 +23,10 @@ export function ProfilePage() {
           value={value}
           onChange={(event) => setValue(event.target.value)}
         />
-        <button onClick={handleChange}>Изменить имя</button>
+        <button onClick={() => {dispatch(changeName(value), setValue(''))}}>Изменить имя</button>
         <hr />
-        <input onChange={changeCheck} type="checkbox" name="" id="home" value='First'/><label for='home'>CheckBox</label>  
-        <button onClick={handleCheckbox} >Отправить ответ</button>
+        <input checked={visible} readOnly type="checkbox" id="home" /><label for='home'>CheckBox</label>  
+        <button onClick={() => dispatch(toggleProfile())} >Отправить ответ</button>
       </form>
     </>
   )
