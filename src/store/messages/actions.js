@@ -18,7 +18,26 @@ export const addMessage = (chatName, text) => ({
   payload: {chatName, text}
 })
 
-export const addMessageBot = (chatName, text) => ({
-  type: ADD_MESSAGE_BOT,
-  payload: {chatName, text}
-})
+// export const addMessageBot = (chatName, text) => ({
+//   type: ADD_MESSAGE_BOT,
+//   payload: {chatName, text}
+// })
+
+let timeOut
+export const addMessageWithReply = (chatName, message) => (dispatch) => {
+  dispatch(addMessage(chatName, message))
+
+
+  if(message.author === 'user') {
+   
+    if (timeOut) {
+      clearTimeout(timeOut)
+    }
+   timeOut = setTimeout(() => {
+      dispatch(addMessage(chatName, {
+        author: 'BOT',
+        text: 'Im bot'
+      }))
+    }, 1000)
+  }
+}

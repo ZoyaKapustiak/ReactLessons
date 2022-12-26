@@ -6,17 +6,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addChat, deleteChat } from '../../store/messages/actions'
 import { selectChat } from "../../store/messages/selectors";
 
-export function ChatsList() {
+export function ChatsList(props) {
   const [chat, setChat] = useState('')
   const dispatch = useDispatch()
   const chats = useSelector(selectChat, (prev, next) => prev.length === next.length)
 
-console.log('update chats', chats)
 
   const handleSubmit = (e) => {
     e.preventDefault() 
     dispatch(addChat(chat))
   }
+
+  
   return (
   <>
     <h1> ChatList</h1> 
