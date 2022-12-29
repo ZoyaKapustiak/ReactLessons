@@ -2,7 +2,8 @@ import * as types from './types'
 
 const initialState = {
   name: 'Biba',
-  visible: true
+  visible: true,
+  isAuth: false
 }
 
 export const profileReduser = (state = initialState, action) => {
@@ -18,7 +19,11 @@ export const profileReduser = (state = initialState, action) => {
         ...state,
         visible: !state.visible
       }
-  
+    case types.IS_AUTH:
+      return {
+        ...state,
+        isAuth: payload
+      }
   
     default:
       return state

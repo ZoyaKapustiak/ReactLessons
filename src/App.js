@@ -1,4 +1,3 @@
-import { useState} from 'react';
 import { Routes, Route } from 'react-router-dom'
 
 import { Provider } from 'react-redux';
@@ -13,8 +12,9 @@ import {AboutWithConnect} from './pages/AboutPage'
 import { Header } from './Components/Header/Header';
 import { store, persistor } from './store/index'
 import { PersistGate } from 'redux-persist/integration/react';
-
-
+import { Articles } from './pages/Articles'
+import { SignIn } from './pages/SignIn'
+import { SignUp } from './pages/SignUp'
 
 const theme = createTheme({
   palette: {
@@ -50,6 +50,9 @@ export function App() {
                 element={<ChatsPage />} 
               />
             </Route>
+            <Route path='articles' element={<Articles />} />
+            <Route path='signin' element={<SignIn />} />
+            <Route path='signup' element={<SignUp />} />
           </Route>
           <Route path="*" element={<h2>404 Page not FOUND</h2>} />
         </Routes>
