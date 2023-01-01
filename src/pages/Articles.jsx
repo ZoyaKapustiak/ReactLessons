@@ -12,8 +12,6 @@ import { getAllArticles } from '../store/articles/actions'
 import { useDispatch, useSelector } from "react-redux";
 import { selectArticles, selectArticlesError, selectArticlesLoading } from "../store/articles/selectors";
 
-
-
 export function Articles() {
   
   const dispatch = useDispatch()
@@ -21,19 +19,13 @@ export function Articles() {
   const error = useSelector(selectArticlesError)
   const loading = useSelector(selectArticlesLoading)
 
-  
-
-
   const requestArticles = () => {
     dispatch(getAllArticles())
   }
 
-  
-
   useEffect(() => {
     requestArticles()
   }, [])
-
 
   if(error) {
     return (

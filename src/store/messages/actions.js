@@ -26,7 +26,7 @@ export const addMessage = (chatName, text) => ({
 let timeOut
 export const addMessageWithReply = (chatName, message) => (dispatch) => {
   dispatch(addMessage(chatName, message))
-
+console.log(chatName)
 
   if(message.author === 'user') {
    

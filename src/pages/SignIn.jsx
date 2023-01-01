@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState }  from "react";
 import { Form } from "react-router-dom";
-import { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { auth } from "../store/profile/actions";
+import { signIn } from "../services/firebase";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 export function SignIn() {
-  const [input, setInput] = useState({login: '', password: ''})
+  const [input, setInput] = useState({email: '', password: ''})
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -16,15 +20,21 @@ export function SignIn() {
     setInput((prev) => ({...prev, [e.target.name]: e.target.value}))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if(input.login === 'gb' && input.password === 'gb') {
-      navigate('/')
+    setError('')
+    setLoading(true)
+    try {
+      await signIn(input.email, input.password)
       dispatch(auth(true))
-    } else {
-      setError('Login and password failed')
-      setInput({login: '', password: ''})
+      navigate('/chats')
+    } catch (error) {
+        setError(error.message)
+        setInput({email: '', password: ''})
+    } finally {
+        setLoading(false)
     }
+
   }
 
   console.log(input)
@@ -32,11 +42,11 @@ export function SignIn() {
     <>
       <h1>SignIn</h1>
       <form onSubmit={handleSubmit}>
-        <p>Login</p>
+        <p>email</p>
         <input 
           type="text"
-          name="login"
-          value={input.login}
+          name="email"
+          value={input.email}
           onChange={handleChange}
         />
         <p>Password</p>
@@ -46,8 +56,13 @@ export function SignIn() {
           value={input.password}
           onChange={handleChange}
         />
-        <button>login</button>
+        <button>email</button>
       </form>
+      {loading && (
+        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+          <CircularProgress />
+        </Box>
+      )}
       {error && <p style={{color: 'red'}}>{error}</p> }
     </>
   )
