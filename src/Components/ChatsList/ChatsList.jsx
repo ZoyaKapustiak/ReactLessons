@@ -2,20 +2,40 @@ import { useState } from "react";
 import { Link} from 'react-router-dom';
 import styles from './ChatsList.module.css'
 import {TextField, List, ListItem, Button, Box} from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { addChat, deleteChat } from '../../store/messages/actions'
-import { selectChat } from "../../store/messages/selectors";
+import { push, set, remove } from 'firebase/database'
+import { messagesRef, getChatById, getMessageListById } from "../../services/firebase";
 
-export function ChatsList(props) {
+export function ChatsList({messageDB, chats}) {
+  
   const [chat, setChat] = useState('')
   const dispatch = useDispatch()
-  const chats = useSelector(selectChat, (prev, next) => prev.length === next.length)
+  // const chats = useSelector(selectChat, (prev, next) => prev.length === next.length)
 
 
   const handleSubmit = (e) => {
     e.preventDefault() 
     dispatch(addChat(chat))
+    
+    set(messagesRef, {
+      ...messageDB,
+      [chat]: {
+        name: chat
+      }
+    })
+
+    push(getMessageListById(chat), {
+      text: 'Chat has been created',
+      author: 'Admin'
+    });
+
+    setChat('')
   }
+
+  const handleDeleteChat = (chatId) => {
+    remove(getChatById(chatId));
+  };
 
   
   return (
@@ -24,13 +44,15 @@ export function ChatsList(props) {
     <List className={styles.listBlock}>
       {chats.map((value) => (
       <ListItem
-        key={value.id}
+        key={value.name}
         disableGutters
         >
         <Link to={`/chats/${value.name}`}>
           {value.name}
         </Link>
-        <button onClick={() => dispatch(deleteChat(value.name))}>X</button>
+        <button 
+        onClick={() => dispatch(handleDeleteChat(value.name))}
+        >X</button>
       </ListItem>
       ))}
     </List>
