@@ -1,11 +1,10 @@
 import { useState } from 'react'
 import { changeName, toggleProfile } from '../store/profile/actions'
 import { connect } from 'react-redux'
+import { Button } from '../Components/ui/Button'
 
 function AboutPage(props) {
-
   const [value, setValue] = useState('')
-
 
   return (
     <>
@@ -18,7 +17,7 @@ function AboutPage(props) {
           value={value}
           onChange={(event) => setValue(event.target.value)}
         />
-        <button onClick={() => {props.changeName(value)}}>Изменить имя</button>
+        <Button onClick={() => {props.changeName(value)}}>Изменить имя</Button>
         <hr />
         <input checked={props.visible} readOnly type="checkbox" id="home" /><label for='home'>CheckBox</label>  
         <button onClick={() => props.toggle()} >Отправить ответ</button>

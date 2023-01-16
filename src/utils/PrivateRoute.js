@@ -4,9 +4,9 @@ import { selectAuth } from "../store/profile/selectors"
 
 export const PrivateRoute = ({ component }) => {
   const isAuth = useSelector(selectAuth);
-
+  console.log(component)
   if(!isAuth) {
-    return <Navigate to="/signin"/>;
+    return <Navigate to="/signin" />;
   }
 
   return component ? component : <Outlet />;

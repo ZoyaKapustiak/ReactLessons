@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 
 export function MessageList({messages}) {
-
+console.log(messages)
   return (
     <>
     <h1>MessageList</h1>

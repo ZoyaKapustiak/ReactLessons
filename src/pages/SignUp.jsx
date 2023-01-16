@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { Form } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { auth } from "../store/profile/actions";
 import { signUp } from "../services/firebase";
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -13,7 +10,6 @@ export function SignUp() {
   const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
-  const dispatch = useDispatch()
 
   const handleChange = (e) => {
     setInput((prev) => ({...prev, [e.target.name]: e.target.value}))

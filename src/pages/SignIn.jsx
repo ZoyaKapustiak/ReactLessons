@@ -1,6 +1,4 @@
 import React, { useState }  from "react";
-import { Form } from "react-router-dom";
-
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { auth } from "../store/profile/actions";
@@ -37,7 +35,6 @@ export function SignIn() {
 
   }
 
-  console.log(input)
   return (
     <>
       <h1>SignIn</h1>

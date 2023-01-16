@@ -3,14 +3,11 @@ import { useState } from 'react'
 import { selectName, selectVisible } from '../store/profile/selectors'
 import { changeName, toggleProfile } from '../store/profile/actions'
 
-
-
 export function ProfilePage() {
   const name = useSelector(selectName)
   const visible = useSelector(selectVisible)
   const dispatch = useDispatch()
   const [value, setValue] = useState('')
-
 
   return (
     <>
@@ -25,7 +22,8 @@ export function ProfilePage() {
         />
         <button onClick={() => {dispatch(changeName(value), setValue(''))}}>Изменить имя</button>
         <hr />
-        <input checked={visible} readOnly type="checkbox" id="home" /><label for='home'>CheckBox</label>  
+        <input checked={visible} readOnly type="checkbox" id="home" />
+        <label htmlFor='home'>CheckBox</label>  
         <button onClick={() => dispatch(toggleProfile())} >Отправить ответ</button>
       </form>
     </>

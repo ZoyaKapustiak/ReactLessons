@@ -30,8 +30,8 @@ export const articlesReduser2 = (state = initialState, action) => {
         request: STATUSES.SUCCESS,
         loading: false
       };
-      default:
-        return state
+    default:
+      return state;
   }
 }
 

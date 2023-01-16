@@ -26,5 +26,5 @@ export const userRef = ref(db, 'user')
 export const messagesRef = ref(db, 'messages')
 
 export const getChatById = (chatId) => ref(db, `messages/${chatId}`)
-// export const getMessageById = (chatId) => ref(db, `messages/${chatId}/messageList`)
+// export const getMessageById = (chatId) => ref(db, `messages/${chatId}/message`) 
 export const getMessageListById = (chatId) => ref(db, `messages/${chatId}/messageList`)

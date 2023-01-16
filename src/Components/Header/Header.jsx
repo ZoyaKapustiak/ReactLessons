@@ -1,7 +1,5 @@
 import { NavLink, Outlet} from 'react-router-dom'
-
 import styles from './Header.module.css'
-import { selectAuth } from '../../store/profile/selectors'
 import { useNavigate } from 'react-router-dom'
 import { logOut } from '../../services/firebase'
 import { useSelector } from 'react-redux'
@@ -32,20 +30,10 @@ export const navigates = [
     name: 'Articles',
     to: '/articles'
   }
-  // {
-  //   id: 6,
-  //   name: 'SignIn',
-  //   to: '/signin'
-  // }, {
-  //   id: 7,
-  //   name: 'SignUp',
-  //   to: '/signup'
-  // },
 ]
 
-export function Header() {
+export function Header({...props}) {
   const isAuth = useSelector((store) => store.profile.name) //попробовать селектор снова
-  const name = useSelector((store) => store.profile.name)
 
   const navigate = useNavigate()
 

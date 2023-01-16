@@ -1,18 +1,16 @@
+import React from "react";
 import { useState } from "react";
 import { Link} from 'react-router-dom';
 import styles from './ChatsList.module.css'
 import {TextField, List, ListItem, Button, Box} from '@mui/material';
 import { useDispatch } from 'react-redux'
-import { addChat, deleteChat } from '../../store/messages/actions'
+import { addChat } from '../../store/messages/actions'
 import { push, set, remove } from 'firebase/database'
 import { messagesRef, getChatById, getMessageListById } from "../../services/firebase";
 
 export function ChatsList({messageDB, chats}) {
-  
   const [chat, setChat] = useState('')
   const dispatch = useDispatch()
-  // const chats = useSelector(selectChat, (prev, next) => prev.length === next.length)
-
 
   const handleSubmit = (e) => {
     e.preventDefault() 
@@ -37,22 +35,23 @@ export function ChatsList({messageDB, chats}) {
     remove(getChatById(chatId));
   };
 
-  
   return (
   <>
     <h1> ChatList</h1> 
     <List className={styles.listBlock}>
-      {chats.map((value) => (
+      {chats.map((value, ind) => (
       <ListItem
-        key={value.name}
+        key={ind}
         disableGutters
         >
-        <Link to={`/chats/${value.name}`}>
+        <Link 
+          key={ind}
+          to={`/chats/${value.name}`}>
           {value.name}
         </Link>
-        <button 
+        <Button 
         onClick={() => dispatch(handleDeleteChat(value.name))}
-        >X</button>
+        >X</Button>
       </ListItem>
       ))}
     </List>
@@ -74,7 +73,7 @@ export function ChatsList({messageDB, chats}) {
           />
         <br/>
         <Button type='submit' variant="outlined" >Create Chat</Button>
-    </Box>
+    </Box>  
   </>
 )
 }
