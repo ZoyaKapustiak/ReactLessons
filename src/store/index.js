@@ -9,7 +9,6 @@ import { persistStore, persistReducer } from "redux-persist";
 const persistConfig = {
   key: 'root',
   storage,
-  // blacklist: 'profile'
 }
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

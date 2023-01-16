@@ -1,36 +1,57 @@
+import React from "react";
 import { useState } from "react";
 import { Link} from 'react-router-dom';
 import styles from './ChatsList.module.css'
 import {TextField, List, ListItem, Button, Box} from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux'
-import { addChat, deleteChat } from '../../store/messages/actions'
-import { selectChat } from "../../store/messages/selectors";
+import { useDispatch } from 'react-redux'
+import { addChat } from '../../store/messages/actions'
+import { push, set, remove } from 'firebase/database'
+import { messagesRef, getChatById, getMessageListById } from "../../services/firebase";
 
-export function ChatsList(props) {
+export function ChatsList({messageDB, chats}) {
   const [chat, setChat] = useState('')
   const dispatch = useDispatch()
-  const chats = useSelector(selectChat, (prev, next) => prev.length === next.length)
-
 
   const handleSubmit = (e) => {
     e.preventDefault() 
     dispatch(addChat(chat))
+    
+    set(messagesRef, {
+      ...messageDB,
+      [chat]: {
+        name: chat
+      }
+    })
+
+    push(getMessageListById(chat), {
+      text: 'Chat has been created',
+      author: 'Admin'
+    });
+
+    setChat('')
   }
 
-  
+  const handleDeleteChat = (chatId) => {
+    remove(getChatById(chatId));
+  };
+
   return (
   <>
     <h1> ChatList</h1> 
     <List className={styles.listBlock}>
-      {chats.map((value) => (
+      {chats.map((value, ind) => (
       <ListItem
-        key={value.id}
+        key={ind}
         disableGutters
         >
-        <Link to={`/chats/${value.name}`}>
+        <Link 
+          key={ind}
+          to={`/chats/${value.name}`}>
           {value.name}
         </Link>
-        <button onClick={() => dispatch(deleteChat(value.name))}>X</button>
+        <Button 
+        onClick={() => dispatch(handleDeleteChat(value.name))}
+        >X</Button>
       </ListItem>
       ))}
     </List>
@@ -52,7 +73,7 @@ export function ChatsList(props) {
           />
         <br/>
         <Button type='submit' variant="outlined" >Create Chat</Button>
-    </Box>
+    </Box>  
   </>
 )
 }
